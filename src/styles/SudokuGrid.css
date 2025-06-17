@@ -1,0 +1,121 @@
+.home-screen {
+  text-align: center;
+  padding: 20px;
+}
+
+.home-screen button {
+  padding: 10px 20px;
+  font-size: 18px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.high-scores ul {
+  list-style: none;
+  padding: 0;
+}
+
+.selected-difficulty {
+  background-color: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.start-game-button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-weight: bold;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.sudoku-grid {
+  display: inline-block;
+  margin-top: 20px;
+  border: 3px solid black;
+}
+
+.sudoku-row {
+  display: flex;
+}
+
+.sudoku-cell {
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  text-align: center;
+  border: 1px solid #999;
+  outline: none;
+  cursor: default;
+  box-sizing: border-box;
+  caret-color: transparent;
+}
+
+.sudoku-cell.fixed {
+  background-color: #eee;
+  font-weight: bold;
+  color: #333;
+}
+
+.sudoku-cell:not(.fixed){
+  cursor: pointer;
+}
+
+.sudoku-cell:nth-child(3),
+.sudoku-cell:nth-child(6) {
+  border-right: 3px solid black;
+}
+
+.sudoku-row:nth-child(3) .sudoku-cell,
+.sudoku-row:nth-child(6) .sudoku-cell {
+  border-bottom: 3px solid black;
+}
+
+.high-scores {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.high-scores ul {
+  list-style: none;
+  padding: 0;
+}
+
+.high-scores li {
+  margin: 4px 0;
+}
+
+.invalid {
+  background-color: #ffdddd;
+  border: 2px solid red;
+}
+
+.sudoku-cell.selected {
+  background-color: #d0e9ff;
+  border: 2px solid #3399ff;
+  caret-color: transparent;
+}
+
+.win-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.win-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+}

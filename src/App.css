@@ -1,0 +1,31 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 20px;
+}
+
+.app {
+  text-align: center;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.difficulty-buttons {
+  margin-bottom: 10px;
+}
+
+.difficulty-buttons button {
+  margin: 0 5px;
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.timer {
+  margin-bottom: 10px;
+  font-size: 18px;
+}
