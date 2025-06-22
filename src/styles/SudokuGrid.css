@@ -1,3 +1,9 @@
+body{
+  background: linear-gradient(135deg, #fdfcfb, #e2d1c3);
+  font-family: 'Courier New', Courier, monospace;
+  color: #333;
+}
+
 .home-screen {
   text-align: center;
   padding: 20px;
@@ -34,7 +40,11 @@
 
 .sudoku-grid {
   display: inline-block;
-  margin-top: 20px;
+  margin-top: 2 rem auto;
+  padding: 10px;
+  background-color: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  animation: fadeIn 0.8s ease-in;
   border: 3px solid black;
 }
 
@@ -47,17 +57,53 @@
   height: 40px;
   font-size: 20px;
   text-align: center;
-  border: 1px solid #999;
+  border: 1px solid #ccc;
+  margin: 2px;
   outline: none;
   cursor: default;
   box-sizing: border-box;
+  transition: transform 0.2s ease;
   caret-color: transparent;
 }
 
+.sudoku-cell:focus{
+  outline: none;
+  transform: scale(1.1);
+  border: 2px solid #4a90e2;
+}
+
 .sudoku-cell.fixed {
-  background-color: #eee;
+  background-color: #f0f0f0;
   font-weight: bold;
-  color: #333;
+  color: #444;
+}
+
+.sudoku-cell.invalid{
+  background-color: #ffd6d6;
+  border: 2px solid red;
+  color: red;
+}
+
+.selected{
+  background-color: #e0f7fa !important;
+  border: 2px solid #00acc1;
+}
+
+button{
+  padding: 10px 20px;
+  margin: 6px;
+  border: none;
+  border-radius: 10px;
+  background-color: #4a90e2;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s, transform 0.2s;
+}
+
+button:hover{
+  background-color: #357ab8;
+  transform: translateY(-2px);
 }
 
 .sudoku-cell:not(.fixed){
@@ -74,8 +120,10 @@
   border-bottom: 3px solid black;
 }
 
-.high-scores {
-  margin-top: 15px;
+.timer, .high-scores {
+  align-items: center;
+  margin-top: 1rem;
+  animation: fadeIn 1s ease-in-out;
   font-size: 14px;
 }
 
@@ -86,11 +134,6 @@
 
 .high-scores li {
   margin: 4px 0;
-}
-
-.invalid {
-  background-color: #ffdddd;
-  border: 2px solid red;
 }
 
 .sudoku-cell.selected {
@@ -109,13 +152,31 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: fadeIn 0.5s ease;
   z-index: 999;
 }
 
 .win-modal {
-  background: white;
+  background-color: #fff;
   padding: 2rem;
-  border-radius: 1rem;
+  border-radius: 20px;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  animation: popUp 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes popUp {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.sudoku-cell.x-diagonal {
+  background-color: #e0fcff;
+  font-weight: bold;
+  border: 1.5px solid #696eff;
 }

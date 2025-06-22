@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SudokuGrid from './components/SudokuGrid';
 import './App.css';
-import { generatePuzzle, solveSudoku } from './utils/sudoku';
+import { generatePuzzle } from './utils/sudoku';
+import SettingsModal from './components/SettingsModal';
 
 function App() {
   const [board, setBoard] = useState([]);
@@ -16,12 +17,16 @@ function App() {
   const [selectedCell, setSelectedCell] = useState(null);
   const [screen, setScreen] = useState('home');
   const [gameWon, setGameWon] = useState(false);
+  const [theme, setTheme] = useState('light');
+  const [soundOn, setSoundOn] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
+  const [variant, setVariant] = useState('classic');
+
 
   const [highScores, setHighScores] = useState(() => {
     const stored = localStorage.getItem('sudoku-highscores');
     return stored ? JSON.parse(stored) : { easy: null, medium: null, hard: null, expert: null };
   });
-
 
   useEffect(() => {
     let interval;
@@ -33,7 +38,13 @@ function App() {
     return () => clearInterval(interval);
   }, [running]);
 
-  const handleSetDifficulty = (level) => {
+  useEffect(() => {
+  document.body.className = '';
+  document.body.classList.add(`theme-${theme}`);
+}, [theme]);
+
+
+  const handleSetDifficulty = (level, selectedVariant='classic') => {
     const { puzzle, solution } = generatePuzzle(level);
     setBoard(puzzle);
     setSolvedBoard(solution);
@@ -45,6 +56,7 @@ function App() {
     setAutoSolved(false);
     setInvalidCells([]);
     setScreen('game');
+    setVariant(selectedVariant);
   };
 
   const goHome = () => {
@@ -55,14 +67,14 @@ function App() {
   };
 
 
-  const handleSolve = () => {
-    const copy = board.map(row => row.map(cell => cell.value));
-    solveSudoku(copy);
-    const solved = copy.map(row => row.map(value => ({ value, fixed: true })));
-    setBoard(copy.map(row => row.map(value => ({ value, fixed: true }))));
-    setRunning(false);
-    setAutoSolved(true);
-  };
+  //const handleSolve = () => {
+  //  const copy = board.map(row => row.map(cell => cell.value));
+  //  solveSudoku(copy);
+  //  const solved = copy.map(row => row.map(value => ({ value, fixed: true })));
+  //  setBoard(copy.map(row => row.map(value => ({ value, fixed: true }))));
+  //  setRunning(false);
+  //  setAutoSolved(true);
+  //};
 
   const handleCellChange = (row, col, value) => {
     if (!/^[1-9]?$/.test(value)) return;
@@ -105,6 +117,10 @@ function App() {
   const validateBoard = (board) => {
   const invalid = [];
 
+  const isDuplicate = (arr, value) => {
+    return arr.filter(v => v === value).length > 1;
+  };
+
   for (let row = 0; row < 9; row++) {
     for (let col = 0; col < 9; col++) {
       const value = board[row][col].value;
@@ -134,6 +150,29 @@ function App() {
     }
   }
 
+  if (variant === 'x-sudoku') {
+    const mainDiagonal = [], antiDiagonal = [];
+    for (let i = 0; i < 9; i++) {
+      if (board[i][i].value !== 0) mainDiagonal.push(board[i][i].value);
+      if (board[i][8 - i].value !== 0) antiDiagonal.push(board[i][8 - i].value);
+    }
+
+    for (let i = 0; i < 9; i++) {
+      if (
+        board[i][i].value !== 0 &&
+        isDuplicate(mainDiagonal, board[i][i].value)
+      ) {
+        invalid.push(`${i}-${i}`);
+      }
+      if (
+        board[i][8 - i].value !== 0 &&
+        isDuplicate(antiDiagonal, board[i][8 - i].value)
+      ) {
+        invalid.push(`${i}-${8 - i}`);
+      }
+    }
+  }
+
   return invalid;
 };
 
@@ -158,7 +197,7 @@ function App() {
 }, [board]);
 
   return (
-  <div className="App">
+  <div className={`App ${theme}`}>
     {screen === 'home' ? (
       <div className="home-screen">
         <h1>Sudoku Game</h1>
@@ -176,12 +215,23 @@ function App() {
           ))}
         </div>
 
+        <div className="variant-buttons">
+          <button onClick={() => handleSetDifficulty(difficulty, 'classic')} className={variant === 'classic' ? 'selected' : ''}>
+            Classic
+          </button>
+          <button onClick={() => handleSetDifficulty(difficulty, 'x-sudoku')} className={variant === 'x-sudoku' ? 'selected' : ''}>
+            X Sudoku
+          </button>
+        </div>
+
+
         <button
           className="start-game-button"
           onClick={() => handleSetDifficulty(difficulty)}
         >
           Start Game
         </button>
+        <button onClick={() => setShowSettings(true)}>Settings</button>
 
         <div className="high-scores">
           <h3>Leaderboard</h3>
@@ -199,13 +249,13 @@ function App() {
         <div className="game-controls">
           <button onClick={goHome}>Home</button>
           <button onClick={() => setRunning(prev => !prev)}>
-            {running ? 'Pause' : 'Resume'}
+            {running ? ' Pause ' : 'Resume'}
           </button>
           <button onClick={handleRestart}>Restart</button>
-          <button onClick={handleSolve}>Solve</button>
           <button onClick={handleHint} disabled={hintCount >= 3}>
             Hint ({3 - hintCount} left)
           </button>
+          <button onClick={() => setShowSettings(true)}>Settings</button>          
         </div>
 
         <p className="timer">Time: {seconds}s</p>
@@ -218,6 +268,7 @@ function App() {
             onCellChange={handleCellChange}
             running={running}
             invalidCells={invalidCells}
+            variant={variant}
           />  
         )}
         {gameWon && (
@@ -235,6 +286,19 @@ function App() {
         )}
        
       </>
+    )}
+    {showSettings && (
+            <SettingsModal
+              theme={theme}
+              setTheme={setTheme}
+              soundOn={soundOn}
+              setSoundOn={setSoundOn}
+              resetScores={() => {
+                localStorage.removeItem('sudoku-highscores');
+                setHighScores({ easy: null, medium: null, hard: null, expert: null });
+              }}
+              close={() => setShowSettings(false)}
+            />
     )}
   </div>
 );

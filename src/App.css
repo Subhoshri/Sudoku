@@ -3,10 +3,19 @@ body {
   background-color: #f9f9f9;
   margin: 0;
   padding: 20px;
+  overflow: hidden;
 }
 
-.app {
+.App {
   text-align: center;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  text-align: center;
+  background-color: var(--bg-color);
+  color: var(--font-color);
 }
 
 h1 {
@@ -28,4 +37,48 @@ h1 {
 .timer {
   margin-bottom: 10px;
   font-size: 18px;
+}
+
+.theme-light {
+  --bg-color: #ffffff;
+  --cell-bg: #f9f9f9;
+  --font-color: #000;
+}
+
+.theme-dark {
+  --bg-color: #1e1e1e;
+  --cell-bg: #2c2c2c;
+  --font-color: #fff;
+}
+
+.theme-cool {
+  --bg-color: #001f3f;
+  --cell-bg: #7FDBFF;
+  --font-color: #fff;
+}
+
+.sudoku-cell {
+  background-color: var(--cell-bg);
+  color: var(--font-color);
+}
+
+.App.light {
+  background-color: #ffffff;
+  color: #222;
+}
+
+.App.dark {
+  background-color: #1e1e1e;
+  color: #f1f1f1;
+}
+
+.App.cool {
+  background-color: #e0f7fa;
+  color: #006064;
+}
+
+.settings-modal .settings-content {
+  background-color: inherit;
+  color: inherit;
+  border: 2px solid currentColor;
 }
