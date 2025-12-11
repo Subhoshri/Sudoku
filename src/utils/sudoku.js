@@ -80,7 +80,7 @@ function getDifficultyCount(diff) {
 export function generatePuzzle(difficulty = 'easy') {
   const board = generateEmptyBoard();
   fillBoard(board);
-  const puzzle = board.map(row => row.slice()); // deep copy
+  const puzzle = board.map(row => row.slice());
   removeCells(puzzle, getDifficultyCount(difficulty));
 
   return {

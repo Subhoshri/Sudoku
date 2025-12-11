@@ -8,7 +8,7 @@ const SettingsModal = ({ theme, setTheme, soundOn, setSoundOn, resetScores, clos
         <h2>Settings</h2>
 
         <div className="setting-group">
-          <label>Theme:</label>
+          <label>Theme: </label>
           <select value={theme} onChange={e => setTheme(e.target.value)}>
             <option value="light">Light</option>
             <option value="dark">Dark</option>

@@ -113,7 +113,7 @@ function App() {
       }
     });
   };
-
+  
   const validateBoard = (board) => {
   const invalid = [];
 
@@ -194,11 +194,12 @@ function App() {
       localStorage.setItem('sudoku-highscores', JSON.stringify(updated));
     }
   }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 }, [board]);
 
   return (
   <div className={`App ${theme}`}>
-    {screen === 'home' ? (
+    {screen === 'home' && (
       <div className="home-screen">
         <h1>Sudoku Game</h1>
         <h2>Select Difficulty</h2>
@@ -216,35 +217,53 @@ function App() {
         </div>
 
         <div className="variant-buttons">
-          <button onClick={() => handleSetDifficulty(difficulty, 'classic')} className={variant === 'classic' ? 'selected' : ''}>
+          <button onClick={() => setVariant('classic')} className={variant === 'classic' ? 'selected' : ''}>
             Classic
           </button>
-          <button onClick={() => handleSetDifficulty(difficulty, 'x-sudoku')} className={variant === 'x-sudoku' ? 'selected' : ''}>
+          <button onClick={() => setVariant('x-sudoku')} className={variant === 'x-sudoku' ? 'selected' : ''}>
             X Sudoku
           </button>
         </div>
 
-
         <button
           className="start-game-button"
-          onClick={() => handleSetDifficulty(difficulty)}
+          onClick={() => handleSetDifficulty(difficulty, variant)}
         >
           Start Game
         </button>
         <button onClick={() => setShowSettings(true)}>Settings</button>
-
-        <div className="high-scores">
-          <h3>Leaderboard</h3>
-          <ul>
-            {['easy', 'medium', 'hard', 'expert'].map(level => (
-              <li key={level}>
-                {level.toUpperCase()}: {highScores[level] ? `${highScores[level]}s` : '—'}
-              </li>
-            ))}
-          </ul>
-        </div>
+        
+        <button
+          className="view-scores-button"
+          onClick={() => setScreen('scores')}
+        >
+          View Leaderboard
+        </button>
       </div>
-    ) : (
+    )} 
+
+    {screen === 'scores' && (
+      <div className="scores-screen">
+        <h2>Leaderboard</h2>
+
+        <ul className="scores-list">
+          {['easy', 'medium', 'hard', 'expert'].map(level => (
+            <li key={level} className="scores-item">
+              <span className="scores-label">{level.toUpperCase()}:</span>
+              <span className="scores-value">
+                {highScores[level] ? `${highScores[level]}s` : '—'}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <button className="back-button" onClick={() => setScreen('home')}>
+          Back
+        </button>
+      </div>
+    )}
+    
+    {screen === 'game' && (
       <>
         <div className="game-controls">
           <button onClick={goHome}>Home</button>

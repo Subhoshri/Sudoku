@@ -1,4 +1,3 @@
-import React, {useState} from 'react';
 import '../styles/SudokuGrid.css';
 
 const SudokuGrid = ({ board, selectedCell, setSelectedCell, onCellChange, running, invalidCells, variant}) => {

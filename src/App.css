@@ -82,3 +82,72 @@ h1 {
   color: inherit;
   border: 2px solid currentColor;
 }
+
+.scores-screen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40px;
+  animation: fadeIn 0.3s ease;
+}
+
+.scores-screen h2 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.scores-list {
+  list-style: none;
+  padding: 0;
+  width: 260px;
+  background: var(--panel-bg);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.scores-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  background: var(--item-bg);
+  border-radius: 10px;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+.scores-item:hover {
+  transform: translateY(-2px);
+  background: var(--item-hover);
+}
+
+.scores-label {
+  font-weight: 600;
+}
+
+.scores-value {
+  font-weight: 500;
+}
+
+.back-button {
+  margin-top: 25px;
+  padding: 12px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  background: var(--button-bg);
+  color: var(--text-primary);
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.back-button:hover {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+}
+

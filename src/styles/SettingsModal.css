@@ -6,6 +6,7 @@
   height: 100%;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
+  color: white;
   justify-content: center;
   align-items: center;
 }
@@ -20,4 +21,9 @@
 
 .setting-group {
   margin-bottom: 1rem;
+}
+
+.setting-group label {
+  margin-bottom: 0.5rem;
+  font-weight: bold;
 }
